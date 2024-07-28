@@ -24,27 +24,28 @@ import java.util.Map;
 @RequestMapping("/load")
 public class LoadController {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoadController.class);
+	private static final Logger logger = LoggerFactory.getLogger(LoadController.class);
 
-    @Autowired
-    JobLauncher jobLauncher;
+	@Autowired
+	JobLauncher jobLauncher;
 
-    @Autowired
-    Job job;
+	@Autowired
+	Job job;
 
-    @GetMapping
-    public BatchStatus load() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
-        Map<String, JobParameter<?>> maps = new HashMap<>();
-        maps.put("time", new JobParameter(System.currentTimeMillis(), null));
-        JobParameters parameters = new JobParameters(maps);
-        JobExecution jobExecution = jobLauncher.run(job, parameters);
+	@GetMapping
+	public BatchStatus load() throws JobExecutionAlreadyRunningException, JobRestartException,
+			JobInstanceAlreadyCompleteException, JobParametersInvalidException {
+		Map<String, JobParameter<?>> maps = new HashMap<>();
+		maps.put("time", new JobParameter(System.currentTimeMillis(), null));
+		JobParameters parameters = new JobParameters(maps);
+		JobExecution jobExecution = jobLauncher.run(job, parameters);
 
-        logger.info("JobExecution: {}", jobExecution.getStatus());
-        logger.info("Batch is Running...");
-        while (jobExecution.isRunning()) {
-            logger.info("...");
-        }
+		logger.info("JobExecution: {}", jobExecution.getStatus());
+		logger.info("Batch is Running...");
+		while (jobExecution.isRunning()) {
+			logger.info("...");
+		}
 
-        return jobExecution.getStatus();
-    }
+		return jobExecution.getStatus();
+	}
 }
