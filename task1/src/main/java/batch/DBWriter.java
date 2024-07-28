@@ -13,16 +13,15 @@ import repository.EmployeeRepository;
 @Component
 public class DBWriter implements ItemWriter<Employee> {
 
-    private static final Logger logger = LoggerFactory.getLogger(DBWriter.class);
+	private static final Logger logger = LoggerFactory.getLogger(DBWriter.class);
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+	@Autowired
+	private EmployeeRepository employeeRepository;
 
-    @Override
-    public void write(Chunk<? extends Employee> employees) throws Exception {
-        logger.info("Data Saved for Employees: {}", employees);
-        employeeRepository.saveAll(employees);
-    }
+	@Override
+	public void write(Chunk<? extends Employee> employees) throws Exception {
+		logger.info("Data Saved for Employees: {}", employees);
+		employeeRepository.saveAll(employees);
+	}
 
-	
 }
